@@ -1,0 +1,7 @@
+
+State Machine - |TrafficLightLab|Current_Light_State
+Name Current_Light_State.GREEN Current_Light_State.AMBER Current_Light_State.REDAMBER Current_Light_State.RED 
+Current_Light_State.RED 0 0 0 0 
+Current_Light_State.REDAMBER 0 0 1 1 
+Current_Light_State.AMBER 0 1 0 1 
+Current_Light_State.GREEN 1 0 0 1 

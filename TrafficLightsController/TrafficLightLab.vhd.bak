@@ -1,0 +1,54 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity TrafficLightLab is 
+			port(
+			clk,reset, : in bit;
+			red1, red2, amber1, amber2, green1, green2: out bit);
+end TrafficLightLab;
+
+architecture behaviour of TrafficLightLab is
+Type state IS (RED, AMBER, GREEN);
+CONSTANT MaximumTime : INTEGER := 2700;
+CONSTANT RedTimer 	: INTEGER := 2700;
+CONSTANT AmberTimer  : INTEGER := 300;
+CONSTANT GreenTimer  : INTEGER := 2700;
+SIGNAL Current_Light_State, Next_Light_State : state;
+SIGNAL time: INTEGER RANGE 0 TO MaximumTime;
+
+BEGIN
+PROCESS(clk, reset)
+VARIABLE count: INTEGER RANGE 0 TO MaximumTime;
+BEGIN
+		IF (reset = '1') THEN Current_Light_State <= RED;
+		
+		ELSIF (clk'event) AND(clk = '1') THEN count:= count +1;
+		
+		IF (count = time) THEN Current_Light_State <= Next_Light_State;
+		count :=0;
+		
+		END IF;
+		
+		END IF:
+		
+END PROCESS;
+PROCESS(Current_Light_State)
+BEGIN
+CASE Current_Light_State IS
+
+		WHEN RED => red1 <='1'; red2 <='1'; amber1 <='0'; amber2 <='0'; green1 <='0'; green2 <='0';
+		time <=RedTimer;
+		Next_Light_State <= AMBER;
+		
+      WHEN AMBER => red1 <='0'; red2 <='0'; amber1 <='1'; amber2 <='1'; green1 <='0'; green2 <='0';
+		time <=AmberTimer;
+		Next_Light_State <= GREEN;
+		
+		WHEN GREEN => red1 <='0'; red2 <='0'; amber1 <='0'; amber2 <='0'; green1 <='1'; green2 <='1';
+		time <=GREENTimer;
+		Next_Light_State <= RED;
+
+
+END CASE;
+END PROCESS;
+END behaviour;		
